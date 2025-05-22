@@ -20,7 +20,6 @@ pipeline {
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: 'test_id', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER')]) {
                     sh '''
-                        chmod 600 "$SSH_KEY"
                         scp -i "$SSH_KEY" main "$SSH_USER"@target:~/
                     '''
                 }
