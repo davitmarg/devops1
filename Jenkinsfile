@@ -18,9 +18,11 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sh 'mkdir -p ~/.ssh'
-                sh 'ssh-keyscan target >> ~/.ssh/known_hosts'
-                sh 'scp main target:~'
+                withCredentials([sshUserPrivateKey(credentialsId: 'test_id', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER')]) {
+                    sh """
+                        scp -i "$SSH_KEY" main $SSH_USER@target:~/
+                    """
+                }
             }
         }
     }
