@@ -18,10 +18,8 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                withCredentials([sshUserPrivateKey(credentialsId: 'test_id', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER')]) {
-                    sh '''
-                        scp -i "$SSH_KEY" main "$SSH_USER"@target:~/
-                    '''
+                withCredentials([sshUserPrivateKey(credentialsId: 'test-id', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER')]) {
+                    sh 'scp -o StrictHostKeyChecking=no -i "$SSH_KEY" main "$SSH_USER"@target:~/'
                 }
             }
         }
