@@ -19,7 +19,10 @@ pipeline {
         stage('Deploy') {
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: 'test-id', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER')]) {
-                    sh 'scp -o StrictHostKeyChecking=no -i "$SSH_KEY" main "$SSH_USER"@target:~/'
+                    sh '''
+                        ssh-keyscan -H target >> ~/.ssh/known_hosts
+                        scp -i "$SSH_KEY" main "$SSH_USER"@target:~/
+                    '''
                 }
             }
         }
