@@ -20,6 +20,8 @@ pipeline {
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: 'test-id', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER')]) {
                     sh '''
+                        mkdir -p ~/.ssh
+                        chmod 700 ~/.ssh
                         ssh-keyscan -H target >> ~/.ssh/known_hosts
                         scp -i "$SSH_KEY" main "$SSH_USER"@target:~/
                     '''
