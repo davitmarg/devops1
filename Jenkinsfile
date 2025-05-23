@@ -23,8 +23,8 @@ pipeline {
                         mkdir -p ~/.ssh
                         chmod 700 ~/.ssh
                         ssh-keyscan -H target >> ~/.ssh/known_hosts
-                        scp -i "$SSH_KEY" main "$SSH_USER"@target:~/
-                        scp -i "$SSH_KEY" main.service "$SSH_USER"@target:~/
+                        scp -i "$SSH_KEY" main "$SSH_USER"@target:
+                        scp -i "$SSH_KEY" main.service "$SSH_USER"@target:
                         ssh -i "$SSH_KEY" "$SSH_USER"@target '
                             sudo mv ~/main.service /etc/systemd/system/main.service
                             sudo systemctl daemon-reload
