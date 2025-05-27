@@ -2,7 +2,8 @@ pipeline {
     agent any
 
     tools {
-       go "1.24.1"
+        go "1.24.1"
+        dockerTool "latest"
     }
 
     stages {
@@ -13,9 +14,25 @@ pipeline {
             }
         stage('Build') {
             steps {
-                sh "go build -o main main.go"
+                sh '''
+                    go build -o main main.go
+                '''
             }
         }
+
+        stage('Docker') {
+            steps {
+                sh '''
+                    
+                    docker build -t myapp .
+
+                    docker tag myapp ttl.sh/myapp:2h
+                    docker push ttl.sh/myapp:2h
+
+                '''
+            }
+        }
+
         stage('Deploy') {
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: 'test-id', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER')]) {
@@ -24,16 +41,11 @@ pipeline {
                         chmod 700 ~/.ssh
                         ssh-keyscan -H target >> ~/.ssh/known_hosts
 
-                        ssh -i "$SSH_KEY" "$SSH_USER"@target 'sudo systemctl stop main.service || true'
-
-                        scp -i "$SSH_KEY" main "$SSH_USER"@target:
-                        scp -i "$SSH_KEY" main.service "$SSH_USER"@target:
-
                         ssh -i "$SSH_KEY" "$SSH_USER"@target '
-                            sudo mv ~/main.service /etc/systemd/system/main.service
-                            sudo systemctl daemon-reload
-                            sudo systemctl enable main.service
-                            sudo systemctl restart main.service
+                            docker pull ttl.sh/myapp:2h
+                            docker stop myapp || true
+                            docker rm myapp || true
+                            docker run -d --name myapp -p 4444:4444 ttl.sh/myapp:2h
                         '
                     '''
                 }
