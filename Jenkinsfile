@@ -34,20 +34,12 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                withCredentials([sshUserPrivateKey(credentialsId: 'test-id', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER')]) {
-                    sh '''
-                        mkdir -p ~/.ssh
-                        chmod 700 ~/.ssh
-                        ssh-keyscan -H target >> ~/.ssh/known_hosts
-
-                        ssh -i "$SSH_KEY" "$SSH_USER"@target '
-                            docker pull ttl.sh/myapp:2h
-                            docker stop myapp || true
-                            docker rm myapp || true
-                            docker run -d --name myapp -p 4444:4444 ttl.sh/myapp:2h
-                        '
-                    '''
-                }
+                sh '''
+                    docker pull ttl.sh/myapp:2h
+                    docker stop myapp || true
+                    docker rm myapp || true
+                    docker run -d --name myapp -p 4444:4444 ttl.sh/myapp:2h
+                '''
             }
         }
     }
