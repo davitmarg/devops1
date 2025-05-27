@@ -3,7 +3,6 @@ pipeline {
 
     tools {
         go "1.24.1"
-        dockerTool "latest"
     }
 
     stages {
