@@ -22,14 +22,14 @@
             stage('Docker') {
                 steps {
                     sh '''
-                        docker build -t my_orz_app .
+                        docker build -t my-orz-app .
 
-                        docker tag my_orz_app ttl.sh/my_orz_app:2h
-                        docker push ttl.sh/my_orz_app:2h
-
+                        docker tag my-orz-app ttl.sh/my-orz-app:2h
+                        docker push ttl.sh/my-orz-app:2h
                     '''
                 }
             }
+
 
             stage('Deploy') {
                 steps {

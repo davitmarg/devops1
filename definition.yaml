@@ -3,12 +3,12 @@ kind: Pod
 metadata:
   creationTimestamp: null
   labels:
-    run: my_orz_app
-  name: my_orz_app
+    run: my-orz-app
+  name: my-orz-app
 spec:
   containers:
-  - image: ttl.sh/my_orz_app:2h
-    name: my_orz_app
+  - image: ttl.sh/my-orz-app:2h
+    name: my-orz-app
     resources: {}
   dnsPolicy: ClusterFirst
   restartPolicy: Always
