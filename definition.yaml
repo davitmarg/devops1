@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: my_orz_app
+  name: my_orz_app
+spec:
+  containers:
+  - image: ttl.sh/my_orz_app:2h
+    name: my_orz_app
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
