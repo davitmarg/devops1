@@ -4,7 +4,7 @@ metadata:
   creationTimestamp: null
   labels:
     run: my-orz-app
-  name: my-orz-app
+  name: myapp
 spec:
   containers:
   - image: ttl.sh/my-orz-app:2h
