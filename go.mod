@@ -1,3 +1,3 @@
 module github.com/davitmarg/devops1
 
-go 1.18
+go 1.24.1
