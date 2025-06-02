@@ -37,9 +37,9 @@ pipeline {
                     sh '''
                         mkdir -p ~/.ssh
                         chmod 700 ~/.ssh
-                        ssh-keyscan -H docker >> ~/.ssh/known_hosts
+                        ssh-keyscan -H 3.72.14.87 >> ~/.ssh/known_hosts
 
-                        ssh -i "$SSH_KEY" "$SSH_USER"@docker '
+                        ssh -i "$SSH_KEY" ubuntu@3.72.14.87 '
 
                             docker pull ttl.sh/myapp:2h
                             docker stop myapp || true
