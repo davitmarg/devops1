@@ -27,6 +27,11 @@ pipeline {
                         chmod 700 ~/.ssh
                         ssh-keyscan -H 3.72.14.87 >> ~/.ssh/known_hosts
 
+                        ssh -i "$SSH_KEY" "$SSH_USER"@3.72.14.87 'sudo systemctl stop main.service || true'
+
+                        scp -i "$SSH_KEY" main "$SSH_USER"@3.72.14.87:
+                        scp -i "$SSH_KEY" main.service "$SSH_USER"@3.72.14.87:
+
                         ssh -i "$SSH_KEY" ubuntu@3.72.14.87 '
                             sudo mv ~/main.service /etc/systemd/system/main.service
                             sudo systemctl daemon-reload
