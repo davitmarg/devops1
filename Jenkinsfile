@@ -35,7 +35,7 @@ pipeline {
                         ssh -i "$SSH_KEY" ubuntu@3.72.14.87 '
                             sudo mv ~/main.service /etc/systemd/system/main.service
                             sudo systemctl daemon-reload
-                            sudo systemctl enable main.service
+                            sudo systemctl enable --now main.service
                             sudo systemctl enable main.service
                             sudo systemctl restart main.service
                         '
